@@ -41,6 +41,7 @@ import org.eclipse.paho.mqttv5.client.logging.LoggerFactory;
 import org.eclipse.paho.mqttv5.common.MqttException;
 import org.eclipse.paho.mqttv5.common.MqttMessage;
 import org.eclipse.paho.mqttv5.common.MqttPersistenceException;
+import org.eclipse.paho.mqttv5.common.packet.MqttAuth;
 import org.eclipse.paho.mqttv5.common.packet.MqttConnAck;
 import org.eclipse.paho.mqttv5.common.packet.MqttConnect;
 import org.eclipse.paho.mqttv5.common.packet.MqttDisconnect;
@@ -176,8 +177,9 @@ public class ClientComms {
 	public void sendNoWait(MqttWireMessage message, MqttToken token) throws MqttException {
 		final String methodName = "sendNoWait";
 
-		if (isConnected() || (!isConnected() && message instanceof MqttConnect)
-				|| (isDisconnecting() && message instanceof MqttDisconnect)) {
+		if (isConnected() ||
+				(!isConnected() && (message instanceof MqttConnect || message instanceof MqttAuth)) ||
+				(isDisconnecting() && message instanceof MqttDisconnect)) {
 
 			if (disconnectedMessageBuffer != null && disconnectedMessageBuffer.getMessageCount() != 0) {
 				// @TRACE 507=Client Connected, Offline Buffer available, but not empty. Adding

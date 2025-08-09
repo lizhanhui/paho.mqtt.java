@@ -104,7 +104,7 @@ public class MqttAuth extends MqttWireMessage {
 
 	@Override
 	protected byte getMessageInfo() {
-		return (byte) (1);
+		return (byte) (0);
 	}
 
 	public int getReturnCode() {

@@ -841,8 +841,15 @@ public class ClientState implements MqttState {
 				// Handle the case where not connected. This should only be the case if:
 				// - in the process of disconnecting / shutting down
 				// - in the process of connecting
-				if (pendingFlows == null || (!connected && (pendingFlows.isEmpty()
-						|| !((MqttWireMessage) pendingFlows.elementAt(0) instanceof MqttConnect)))) {
+				if (pendingFlows == null ||
+						(!connected &&
+								(pendingFlows.isEmpty() ||
+										!( ( pendingFlows.elementAt(0) instanceof MqttConnect) ||
+												( pendingFlows.elementAt(0) instanceof MqttAuth)
+										)
+								)
+						)
+				){
 					// @TRACE 621=no outstanding flows and not connected
 					log.fine(CLASS_NAME, methodName, "621");
 
